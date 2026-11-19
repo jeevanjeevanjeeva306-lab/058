@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notes Sharing App</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="container">
+        <h1>📝 Notes Sharing App</h1>
+
+        <!-- Note Submission Form -->
+        <div class="note-form">
+            <input type="text" id="title" placeholder="Enter Note Title">
+
+            <textarea id="content" placeholder="Write your note here..."></textarea>
+
+            <button onclick="addNote()">Share Note</button>
+        </div>
+
+        <!-- Notes Display Section -->
+        <div class="notes-section">
+             <h2>Shared Notes</h2>
+
+            <div id="notesContainer">
+                <!-- Notes will be displayed here -->
+            </div>
+        </div>
+    </div>
+
+    <script src="java.js"></script>
+
+</body>
+</html>          
