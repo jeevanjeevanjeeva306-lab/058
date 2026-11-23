@@ -1,36 +1,265 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Notes Sharing App</title>
-    <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Notes Sharing App - Login</title>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    min-height: 100vh;
+    background: #f3f3f3;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.container {
+    width: 380px;
+    background: white;
+    padding: 35px;
+    border-radius: 15px;
+    box-shadow: 0 3px 15px #ccc;
+}
+
+h1 {
+    text-align: center;
+    color: #263b55;
+    margin-bottom: 10px;
+}
+
+.subtitle {
+    text-align: center;
+    color: #777;
+    margin-bottom: 25px;
+}
+
+input {
+    width: 100%;
+    padding: 13px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 7px;
+    font-size: 15px;
+}
+
+button {
+    width: 100%;
+    padding: 13px;
+    background: #263b55;
+    color: white;
+    border: none;
+    border-radius: 7px;
+    font-size: 16px;
+    cursor: pointer;
+    margin-top: 15px;
+}
+
+button:hover {
+    background: #14263b;
+}
+
+.options {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 13px;
+    margin-top: 10px;
+}
+
+.options a, .signup a {
+    color: #263b55;
+    text-decoration: none;
+}
+
+.signup {
+    text-align: center;
+    margin-top: 22px;
+    font-size: 14px;
+}
+
+#dashboard {
+    display: none;
+    width: 85%;
+    max-width: 800px;
+    background: white;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 3px 15px #ccc;
+}
+
+#dashboard h1 {
+    margin-bottom: 25px;
+}
+
+.note-input {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.note-input input,
+.note-input textarea {
+    flex: 1;
+    min-width: 180px;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+}
+
+.note-input textarea {
+    min-height: 50px;
+}
+
+.note-input button {
+    width: auto;
+    margin-top: 10px;
+}
+
+.note {
+    background: #f4f6f8;
+    padding: 15px;
+    margin-top: 12px;
+    border-radius: 7px;
+}
+
+.logout {
+    width: auto;
+    float: right;
+    margin-top: 0;
+}
+</style>
 </head>
+
 <body>
 
-    <div class="container">
-        <h1>📝 Notes Sharing App</h1>
+<!-- LOGIN PAGE -->
+<div class="container" id="loginPage">
 
-        <!-- Note Submission Form -->
-        <div class="note-form">
-            <input type="text" id="title" placeholder="Enter Note Title">
+    <h1>📝 Notes App</h1>
+    <p class="subtitle">Welcome! Login to share your notes.</p>
 
-            <textarea id="content" placeholder="Write your note here..."></textarea>
+    <form onsubmit="login(event)">
 
-            <button onclick="addNote()">Share Note</button>
+        <input type="email" id="email"
+        placeholder="Enter your email" required>
+
+        <input type="password" id="password"
+        placeholder="Enter your password" required>
+
+        <div class="options">
+            <label>
+                <input type="checkbox" id="showPassword"
+                style="width:auto;margin:0">
+                Show Password
+            </label>
+
+            <a href="#" onclick="alert('Contact admin to reset your password')">
+                Forgot Password?
+            </a>
         </div>
 
-        <!-- Notes Display Section -->
-        <div class="notes-section">
-             <h2>Shared Notes</h2>
+        <button type="submit">Login</button>
 
-            <div id="notesContainer">
-                <!-- Notes will be displayed here -->
-            </div>
-        </div>
+    </form>
+
+    <div class="signup">
+        Don't have an account?
+        <a href="#" onclick="alert('Sign-up feature can be added next!')">
+            Sign Up
+        </a>
     </div>
 
-    <script src="java.js"></script>
+</div>
+
+
+<!-- NOTES DASHBOARD -->
+<div id="dashboard">
+
+    <button class="logout" onclick="logout()">Logout</button>
+
+    <h1>📝 Notes Sharing App</h1>
+
+    <div class="note-input">
+        <input type="text" id="noteTitle"
+        placeholder="Enter Note Title">
+
+        <textarea id="noteContent"
+        placeholder="Write your note here..."></textarea>
+
+        <button onclick="shareNote()">Share Note</button>
+    </div>
+
+    <h2 style="margin-top:25px;">Shared Notes</h2>
+
+    <div id="notesList"></div>
+
+</div>
+
+
+<script>
+
+document.getElementById("showPassword").onchange =
+function() {
+    document.getElementById("password").type =
+    this.checked ? "text" : "password";
+};
+
+function login(event) {
+    event.preventDefault();
+
+    let email = document.getElementById("email").value;
+    let password = document.getElementById("password").value;
+
+    if(email && password.length >= 4) {
+        document.getElementById("loginPage").style.display = "none";
+        document.getElementById("dashboard").style.display = "block";
+    } else {
+        alert("Please enter valid details!");
+    }
+}
+
+function logout() {
+    document.getElementById("dashboard").style.display = "none";
+    document.getElementById("loginPage").style.display = "block";
+}
+
+function shareNote() {
+    let title = document.getElementById("noteTitle").value;
+    let content = document.getElementById("noteContent").value;
+
+    if(title === "" || content === "") {
+        alert("Please enter title and note!");
+        return;
+    }
+
+    let note = document.createElement("div");
+    note.className = "note";
+
+    let heading = document.createElement("h3");
+    heading.textContent = title;
+
+    let paragraph = document.createElement("p");
+    paragraph.textContent = content;
+
+    note.appendChild(heading);
+    note.appendChild(paragraph);
+
+    document.getElementById("notesList").appendChild(note);
+
+    document.getElementById("noteTitle").value = "";
+    document.getElementById("noteContent").value = "";
+}
+
+</script>
 
 </body>
-</html>          
+</html>

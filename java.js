@@ -1,4 +1,4 @@
-function addNote() {
+ function addNote() {
     let title = document.getElementById("title").value;
     let content = document.getElementById("content").value;
 
@@ -18,7 +18,7 @@ function addNote() {
         <button class="delete-btn" onclick="deleteNote(this)">
             Delete
         </button>
-    `;
+    ;
 
     notesContainer.appendChild(noteDiv);
 
